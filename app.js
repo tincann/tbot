@@ -1,23 +1,14 @@
 var config = require('./config.js'),
-	     Q = require('q'),
-	 tgram = require('./tgram.js');
+  telegram = require('./tgram.js'),
+	     Q = require('q');
 
-bot = tgram.create();   
+var client = telegram.createClient();
 
-
-
-bot.on('connect', function(){
+client.on('connect', function(){
 	console.log('connected!!');
-	bot.send('Mies', 'hallo!');
+	client.send('Morten', 'hallo!');
 });
 
-
-var init = function(){
-	var defered = Q.defer();
-	console.log('tbot started');
-	setTimeout(function(){
-		defered.resolve();		
-	}, 2000);
-
-	return defered.promise;	
-}
+client.on('message', function(message){
+	console.log('received:', message);
+});
