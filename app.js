@@ -1,23 +1,23 @@
-var readline = require('readline'),
-      config = require('./config.js'),
-	   child = require('child_process');
+var config = require('./config.js'),
+	     Q = require('q'),
+	 tgram = require('./tgram.js');
 
-var cli = child.spawn('cli/telegram-cli', ['-k', 'cli/tg-server.pub']);
-
-cli.stdout.setEncoding('utf8');
-cli.stdout.on('data', function (data) {
-	console.log(data);
-})
-
-cli.stdin.setEncoding('utf8');
-
-var message = 'Hoi vanuit de bot!';
-
-cli.stdin.write('contact_list\n');
-setTimeout(function(){
-	cli.stdin.write('msg Mies ' + message + '\r\n');
-}, 2000);
+bot = tgram.create();   
 
 
 
-console.log('tbot started');
+bot.on('connect', function(){
+	console.log('connected!!');
+	bot.send('Mies', 'hallo!');
+});
+
+
+var init = function(){
+	var defered = Q.defer();
+	console.log('tbot started');
+	setTimeout(function(){
+		defered.resolve();		
+	}, 2000);
+
+	return defered.promise;	
+}
